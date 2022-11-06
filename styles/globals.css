@@ -2745,21 +2745,21 @@ body:not(.touch-device) .header__item:hover .header__body {
 }
 
 .main__preview:first-child {
-  top: 13px;
-  right: -33px;
-  width: 370px;
+  width: 768px;
+  position: absolute;
+  top: 206px;
+  right: calc(50% - 686px);
+  font-size: 0;
 }
 
 .main__preview:nth-child(2) {
-  left: -2px;
-  bottom: 165px;
-  width: 235px;
+  width: 768px;
+
 }
 
 .main__preview:nth-child(3) {
-  right: 157px;
-  bottom: 10px;
-  width: 98px;
+  width: 768px;
+
 }
 
 .main__preview:nth-child(4) {
@@ -2771,6 +2771,8 @@ body:not(.touch-device) .header__item:hover .header__body {
 }
 
 .main__view[data-aos] .main__preview {
+  position:absolute;
+  width:900px;
   opacity: 0;
   -webkit-transition: all .5s;
   -o-transition: all .5s;
@@ -2843,7 +2845,8 @@ body:not(.touch-device) .header__item:hover .header__body {
 }
 
 .main__view .main__pic {
-  width: 100%;
+  width:700px;
+  /*width: 100%;*/
 }
 
 .main__circles {
@@ -8805,7 +8808,7 @@ body:not(.touch-device) .header__item:hover .header__body {
   .main__preview:first-child {
     top: 60px;
     right: calc(50% - 200px);
-    width: 110px;
+    width: 410px;
   }
   .main__preview:nth-child(2) {
     left: calc(50% - 225px);
