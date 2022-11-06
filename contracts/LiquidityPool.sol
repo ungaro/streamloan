@@ -6,8 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract LiquidityPool {
     // ERC20 token state variables
-    IERC20 public immutable token1;
-    IERC20 public immutable token2;
+    IERC20 public immutable loanToken;
     // State variables for token reserves
     uint256 public reserve1;
     uint256 public reserve2;
@@ -26,9 +25,8 @@ contract LiquidityPool {
         uint256 _sharesBurned
     );
 
-    constructor(address _token1, address _token2) {
-        token1 = IERC20(_token1);
-        token2 = IERC20(_token2);
+    constructor(address _loanToken) {
+        loanToken = IERC20(_loanToken);
     }
 
     // Function to get reserves
@@ -58,9 +56,6 @@ contract LiquidityPool {
         reserve1 = _reserve1;
     }
 
-
-
-
     // Function for user to add liquidity
     function addLiquidity(uint256 _tokenAmount)
     external
@@ -68,7 +63,7 @@ contract LiquidityPool {
     {
         // User sends both tokens to liquidity pool
         require(
-            token1.transferFrom(msg.sender, address(this), _tokenAmount),
+            loanToken.transferFrom(msg.sender, address(this), _tokenAmount),
             "Token Transfer Failed"
         );
 
@@ -80,7 +75,7 @@ contract LiquidityPool {
 
         // Update the reserves
         _update(
-            token1.balanceOf(address(this)),
+            loanToken.balanceOf(address(this)),
         );
 
         emit MintLpToken(msg.sender, _liquidityShares);
@@ -96,14 +91,14 @@ contract LiquidityPool {
             "Insufficient liquidity shares"
         );
         // Get balance of both tokens
-        uint256 token1Balance = token1.balanceOf(address(this));
+        uint256 loanTokenBalance = loanToken.balanceOf(address(this));
 
         uint256 _totalLiquidity = totalLiquidity;
 
-        _amountToken1 = (_liquidityShares * token1Balance) / _totalLiquidity;
+        _amountloanToken = (_liquidityShares * loanTokenBalance) / _totalLiquidity;
 
         require(
-            _amountToken1 > 0,
+            _amountloanToken > 0,
             "Insufficient transfer amounts"
         );
 
@@ -111,10 +106,10 @@ contract LiquidityPool {
         _burn(msg.sender, _liquidityShares);
 
         // Update reserves
-        _update(token1Balance - _amountToken1);
+        _update(loanTokenBalance - _amountloanToken);
 
         // Transfer tokens to user
-        token1.transfer(msg.sender, _amountToken1);
+        loanToken.transfer(msg.sender, _amountloanToken);
 
 
         // TODO: Update flow back to user
