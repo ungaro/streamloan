@@ -142,9 +142,9 @@ function Home() {
                 <div className="main__center center">
                     <div className="main__wrap">
                         <h1 className="main__title title title_big" data-aos><span className="title__box"><span
-                            className="title__text">Get your  </span></span><span className="title__box"><span
+                            className="title__text">Get your </span></span><span className="title__box"><span
                             className="title__text"><span className="title__line">paycheck</span></span></span><span
-                            className="title__box"><span className="title__text"> now!</span></span><span
+                            className="title__box"><span className="title__text">now!</span></span><span
                             className="title__box"></span></h1>
                         <div className="main__info info" data-aos="animation-scale-y" data-aos-delay="400">No more waiting until the end of the month! 👋
                         </div>

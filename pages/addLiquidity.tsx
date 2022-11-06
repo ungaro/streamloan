@@ -142,9 +142,11 @@ function Home() {
                 <div className="main__center center">
                     <div className="main__wrap">
 
-                        <div className="StyledBox-sc-13pk1d4-0 jOBnEd">
+                        <div className="StyledBox-sc-13pk1d4-0 jOBnEd"  style={{display: 'flex', boxSizing: 'border-box', maxWidth: '100%', minWidth: '0px',minHeight: '0px',flexDirection: 'column'}}
+
+                        >
                             <div className="StyledGrid-sc-1wofa1l-0 SUFKc"><span
-                                >FRAX/USDC<span> BOOST</span></span>
+                                >Microsoft <span> Employees</span></span>
                                 <div className="StyledBox-sc-13pk1d4-0 gJTIRJ"><img width="26" height="26"
                                                                                     src="/static/media/frax.6ed06f08.svg"
                                                                                     alt="tokenIcon"/>
