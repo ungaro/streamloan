@@ -31,7 +31,7 @@ contract EmploymentLoan is SuperAppBase {
     int8 public immutable interestRate;
 
     /// @notice Number of months the loan will be paid back in. I.e. 2 years = '24'
-    int256 public immutable paybackMonths;
+    int256 public immutable paybackDays;
 
     /// @notice Address of employer - must be allow-listed for this example
     address public immutable employer;
@@ -89,7 +89,7 @@ contract EmploymentLoan is SuperAppBase {
     constructor(
         int256 _borrowAmount, // amount to be borrowed
         int8 _interestRate, // annual interest rate, in whole number - i.e. 8% would be passed as 8
-        int256 _paybackMonths, // total payback months
+        int256 _paybackDays, // total payback months
         address _employer, // allow-listed employer address
         address _borrower, // borrower address
         ISuperToken _borrowToken, // super token to be used in borrowing
@@ -98,7 +98,7 @@ contract EmploymentLoan is SuperAppBase {
     ) {
         borrowAmount = _borrowAmount;
         interestRate = _interestRate;
-        paybackMonths = _paybackMonths;
+        paybackDays = _paybackDays;
         employer = _employer;
         lendingPool = _lendingPool;
         borrower = _borrower;
@@ -132,7 +132,7 @@ contract EmploymentLoan is SuperAppBase {
         return (
             int96(
                 ((borrowAmount + ((borrowAmount * int256(interestRate)) / int256(100))) /
-                    paybackMonths) / ((365 / 12) * 86400)
+                    paybackDays) / ((365 ) * 86400)
             )
         );
     }
@@ -146,7 +146,7 @@ contract EmploymentLoan is SuperAppBase {
     /// whether or not a loan may be closed.
     function getTotalAmountRemaining() public view returns (uint256) {
         //if there is no time left on loan, return zero
-        int256 secondsLeft = (paybackMonths * int256((365 * 86400) / 12)) -
+        int256 secondsLeft = (paybackDays * int256((365 * 86400) )) -
             int256(block.timestamp - loanStartTime);
         if (secondsLeft <= 0) {
             return 0;
