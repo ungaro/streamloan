@@ -43,9 +43,9 @@ function Home() {
                         <button className="header__burger js-header-burger"><span></span></button>
                         <a className="header__logo" href="#"><img className="header__pic" src="img/logo.svg" alt=""/></a>
                         <div className="header__wrap js-header-wrap">
-                            <nav className="header__nav"><a className="header__item" href="#">Features</a><a
+                            <nav className="header__nav"><a className="header__item" href="/">Features</a><a
                                 className="header__item" href="/addLiquidity">Add Liquidity</a><a className="header__item"
-                                                                                href="/borrow">Borrow</a>
+                                                                                                  href="/borrow">Borrow</a>
                                 <div className="header__item js-header-item">
                                     <div className="header__body js-header-body">
                                         <div className="header__center center">
@@ -141,24 +141,31 @@ function Home() {
                 </div>
                 <div className="main__center center">
                     <div className="main__wrap">
-                        <h1 className="main__title title title_big" data-aos><span className="title__box"><span
-                            className="title__text">Get your  </span></span><span className="title__box"><span
-                            className="title__text"><span className="title__line">paycheck</span></span></span><span
-                            className="title__box"><span className="title__text"> now!</span></span><span
-                            className="title__box"></span></h1>
-                        <div className="main__info info" data-aos="animation-scale-y" data-aos-delay="400">No more waiting until the end of the month! 👋
+
+                        <div className="StyledBox-sc-13pk1d4-0 jOBnEd">
+                            <div className="StyledGrid-sc-1wofa1l-0 SUFKc"><span
+                                >FRAX/USDC<span> BOOST</span></span>
+                                <div className="StyledBox-sc-13pk1d4-0 gJTIRJ"><img width="26" height="26"
+                                                                                    src="/static/media/frax.6ed06f08.svg"
+                                                                                    alt="tokenIcon"/>
+                                    <div className="StyledBox__StyledBoxGap-sc-13pk1d4-1 hzCveV"></div>
+                                    <img width="26" height="26" src="/static/media/usdc.f08e02b1.svg" alt="tokenIcon"/>
+                                </div>
+                                <div className="StyledBox-sc-13pk1d4-0 wsmJZ">
+                                    <div className="StyledBox-sc-13pk1d4-0 kZIrnQ"
+                                         ><span
+                                        className="StyledText-sc-1sadyjn-0 cAaqMk"
+                                      >Ethereum</span></div>
+                                </div>
+                                <span>$10,095.49</span>
+                                <div className="StyledBox-sc-13pk1d4-0 dfOloZ"><span>3.87%</span>
+                                    <button type="button" className="StyledButtonKind-sc-1vhfpnt-0 ioxRVT"
+                                           >Connect wallet
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div className="main__control" data-aos="animation-scale-y" data-aos-delay="550"><a
-                            className="main__btn btn btn_purple" href="login.html">Get Started</a><a
-                            className="main__link" href="#">
-                            <div className="main__icon"><img className="main__pic" src="img/play.svg" alt=""/></div>
-                            <div className="main__text">See It In Action!</div>
-                        </a></div>
-                        <div className="main__scroll" data-aos="animation-scale-y" data-aos-delay="650"><a
-                            className="main__link" href="#">
-                            <div className="main__icon"><img className="main__pic" src="img/scroll.svg" alt=""/></div>
-                            <div className="main__text">Scroll to explore</div>
-                        </a></div>
+
                     </div>
                     <div className="main__view" data-aos>
 
@@ -175,62 +182,6 @@ function Home() {
                         <div className="main__circle js-rellax" data-rellax-speed="1"></div>
                     </div>
                 </div>
-            </div>
-            <div className="features js-features">
-                <div className="features__center center">
-                    <div className="features__head" data-aos="animation-scale-y">
-                        <div className="features__stage stage">How it works</div>
-                        <div className="features__box">
-                            <h2 className="features__title title">Three simple steps</h2>
-                            <div className="features__info info"> StreamLoan leverages decentralized networks to get you your paycheck now.
-                            </div>
-                        </div>
-                    </div>
-                    <div className="features__body">
-                        <div className="features__container">
-                            <div className="features__slider js-features-slider">
-                                <div className="features__slide" data-aos="animation-scale-y">
-                                    <div className="features__details">
-                                        <div className="features__preview"><img className="features__pic"
-                                                                                src="img/feat1.png" alt=""/></div>
-                                        <div className="features__category">Sign In</div>
-                                        <div className="features__text">Sign in or connect wallet to app.streamloan.xyz
-                                        </div>
-                                        <a className="features__link" href="#">Find out more</a>
-                                    </div>
-                                </div>
-                                <div className="features__slide" data-aos="animation-scale-y" data-aos-delay="200">
-                                    <div className="features__details">
-                                        <div className="features__preview"><img className="features__pic"
-                                                                                src="img/feat2.png" alt=""/></div>
-                                        <div className="features__category">Check your Employer</div>
-                                        <div className="features__text">Check your employer’s availability and rate
-                                        </div>
-                                        <a className="features__link" href="#">Find out more</a>
-                                    </div>
-                                </div>
-                                <div className="features__slide">
-                                    <div className="features__details">
-                                        <div className="features__preview"><img className="features__pic"
-                                                                                src="img/feat3.png" alt=""/></div>
-                                        <div className="features__category">Borrow</div>
-                                        <div className="features__text">Click Borrow and receive payment today, directly to your crypto wallet or your bank account
-                                        </div>
-                                        <a className="features__link" href="#">Find out more</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="features__status js-features-status"></div>
-                    </div>
-                </div>
-                <div className="features__circle js-rellax" data-rellax-speed="-.7"></div>
-                <div className="features__bg" data-aos data-aos-duration="1000"><img className="features__pic"
-                                                                                     src="img/features-pic-1.svg"
-                                                                                     alt=""/></div>
-
-                <div className="partners__circle js-rellax" data-rellax-speed=".6"></div>
             </div>
                 <script src="/js/app.js"></script>
                 <script src="/js/common.js"></script>

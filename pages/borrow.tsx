@@ -43,9 +43,9 @@ function Home() {
                         <button className="header__burger js-header-burger"><span></span></button>
                         <a className="header__logo" href="#"><img className="header__pic" src="img/logo.svg" alt=""/></a>
                         <div className="header__wrap js-header-wrap">
-                            <nav className="header__nav"><a className="header__item" href="#">Features</a><a
+                            <nav className="header__nav"><a className="header__item" href="/">Features</a><a
                                 className="header__item" href="/addLiquidity">Add Liquidity</a><a className="header__item"
-                                                                                href="/borrow">Borrow</a>
+                                                                                                  href="/borrow">Borrow</a>
                                 <div className="header__item js-header-item">
                                     <div className="header__body js-header-body">
                                         <div className="header__center center">
