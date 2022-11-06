@@ -73,7 +73,10 @@ contract EmploymentLoan is SuperAppBase {
     ///@dev ensures that only the host can call functions where this is implemented
     //for usage in callbacks only
     modifier onlyHost() {
-        require(msg.sender == address(cfaV1.host), "Only host can call callback");
+        require(
+            msg.sender == address(cfaV1.host),
+            "Only host can call callback"
+        );
         _;
     }
 
@@ -131,8 +134,9 @@ contract EmploymentLoan is SuperAppBase {
     function getPaymentFlowRate() public view returns (int96 paymentFlowRate) {
         return (
             int96(
-                ((borrowAmount + ((borrowAmount * int256(interestRate)) / int256(100))) /
-                    paybackDays) / ((365 ) * 86400)
+                ((borrowAmount +
+                    ((borrowAmount * int256(interestRate)) / int256(100))) /
+                    paybackDays) / ((365 / 12) * 86400)
             )
         );
     }
@@ -146,7 +150,7 @@ contract EmploymentLoan is SuperAppBase {
     /// whether or not a loan may be closed.
     function getTotalAmountRemaining() public view returns (uint256) {
         //if there is no time left on loan, return zero
-        int256 secondsLeft = (paybackDays * int256((365 * 86400) )) -
+        int256 secondsLeft = (paybackDays * int256((365 * 86400) / 12)) -
             int256(block.timestamp - loanStartTime);
         if (secondsLeft <= 0) {
             return 0;
@@ -159,17 +163,32 @@ contract EmploymentLoan is SuperAppBase {
     /// @notice lender can use this function to send funds to the borrower and start the loan
     /// @dev function also handles the splitting of flow to lender
     function lend() external {
-        (, int96 employerFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, employer, address(this));
+        (, int96 employerFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            employer,
+            address(this)
+        );
 
-        require(employerFlowRate >= getPaymentFlowRate(), "insufficient flowRate");
+        require(
+            employerFlowRate >= getPaymentFlowRate(),
+            "insufficient flowRate"
+        );
 
         //lender must approve contract before running next line
-        borrowToken.transferFrom(msg.sender, lendingPool, uint256(borrowAmount));
+        borrowToken.transferFrom(
+            msg.sender,
+            lendingPool,
+            uint256(borrowAmount)
+        );
 
         //want to make sure that tokens are sent successfully first before setting lender to msg.sender
         int96 netFlowRate = cfaV1.cfa.getNetFlow(borrowToken, address(this));
 
-        (, int96 outFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), borrower);
+        (, int96 outFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            borrower
+        );
 
         //update flow to borrower (aka the employee)
         cfaV1.updateFlow(
@@ -215,10 +234,20 @@ contract EmploymentLoan is SuperAppBase {
                 borrowToken,
                 inFlowRate - paymentFlowRate
             );
-            newCtx = cfaV1.createFlowWithCtx(newCtx, lender, borrowToken, paymentFlowRate);
+            newCtx = cfaV1.createFlowWithCtx(
+                newCtx,
+                lender,
+                borrowToken,
+                paymentFlowRate
+            );
         } else {
             //if loanOpen is not true, we need to send the borrower the full inflow
-            newCtx = cfaV1.createFlowWithCtx(newCtx, borrower, borrowToken, inFlowRate);
+            newCtx = cfaV1.createFlowWithCtx(
+                newCtx,
+                borrower,
+                borrowToken,
+                inFlowRate
+            );
         }
     }
 
@@ -242,7 +271,11 @@ contract EmploymentLoan is SuperAppBase {
         // this will get us the amount of money that should be redirected to the lender out of the
         // inflow, denominated in borrow token
 
-        (, int96 borrowerInFlow, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), borrower);
+        (, int96 borrowerInFlow, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            borrower
+        );
 
         //if the amount being sent is enough to cover loan
         if ((inFlowRate - paymentFlowRate) > 0) {
@@ -264,9 +297,19 @@ contract EmploymentLoan is SuperAppBase {
                         inFlowRate - paymentFlowRate
                     );
                 }
-                newCtx = cfaV1.updateFlowWithCtx(newCtx, lender, borrowToken, paymentFlowRate);
+                newCtx = cfaV1.updateFlowWithCtx(
+                    newCtx,
+                    lender,
+                    borrowToken,
+                    paymentFlowRate
+                );
             } else {
-                newCtx = cfaV1.updateFlowWithCtx(newCtx, borrower, borrowToken, inFlowRate);
+                newCtx = cfaV1.updateFlowWithCtx(
+                    newCtx,
+                    borrower,
+                    borrowToken,
+                    inFlowRate
+                );
             }
             // the following case is here because the lender will be paid first
             // if there's not enough money to pay off the loan in full, the lender gets paid
@@ -275,11 +318,26 @@ contract EmploymentLoan is SuperAppBase {
             // if inFlowRate is less than the required amount to pay interest, but there's still a
             // flow, we'll stream it all to the lender
             if (outFlowRateLender > 0) {
-                newCtx = cfaV1.deleteFlowWithCtx(newCtx, address(this), borrower, borrowToken);
-                newCtx = cfaV1.updateFlowWithCtx(newCtx, lender, borrowToken, inFlowRate);
+                newCtx = cfaV1.deleteFlowWithCtx(
+                    newCtx,
+                    address(this),
+                    borrower,
+                    borrowToken
+                );
+                newCtx = cfaV1.updateFlowWithCtx(
+                    newCtx,
+                    lender,
+                    borrowToken,
+                    inFlowRate
+                );
             } else {
                 //in this case, there is no lender outFlowRate..so we need to just update the outflow to borrower
-                newCtx = cfaV1.updateFlowWithCtx(newCtx, borrower, borrowToken, inFlowRate);
+                newCtx = cfaV1.updateFlowWithCtx(
+                    newCtx,
+                    borrower,
+                    borrowToken,
+                    inFlowRate
+                );
             }
         }
     }
@@ -295,15 +353,28 @@ contract EmploymentLoan is SuperAppBase {
         newCtx = ctx;
         // delete flow to lender in borrow token if they are currently receiving a flow
         if (outFlowRateLender > 0) {
-            newCtx = cfaV1.deleteFlowWithCtx(newCtx, address(this), lender, borrowToken);
+            newCtx = cfaV1.deleteFlowWithCtx(
+                newCtx,
+                address(this),
+                lender,
+                borrowToken
+            );
         }
         // delete flow to borrower in borrow token
-        newCtx = cfaV1.deleteFlowWithCtx(newCtx, address(this), borrower, borrowToken);
+        newCtx = cfaV1.deleteFlowWithCtx(
+            newCtx,
+            address(this),
+            borrower,
+            borrowToken
+        );
     }
 
     /// @notice handles create, update, and delete case - to be run in each callback
     /// @param ctx context passed by super app callback
-    function _updateOutflow(bytes calldata ctx) private returns (bytes memory newCtx) {
+    function _updateOutflow(bytes calldata ctx)
+        private
+        returns (bytes memory newCtx)
+    {
         newCtx = ctx;
         //this will get us the amount of money that should be redirected to the lender out of the inflow, denominated in borrow token
         int96 paymentFlowRate = getPaymentFlowRate();
@@ -311,9 +382,17 @@ contract EmploymentLoan is SuperAppBase {
         int96 netFlowRate = cfaV1.cfa.getNetFlow(borrowToken, address(this));
 
         //current amount being sent to lender
-        (, int96 outFlowRateLender, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), lender);
+        (, int96 outFlowRateLender, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            lender
+        );
         //current amount being sent to borrower
-        (, int96 outFlowRateBorrower, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), borrower);
+        (, int96 outFlowRateBorrower, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            borrower
+        );
         //total outflow rate in borrow token - only 2
         int96 outFlowRate = outFlowRateLender + outFlowRateBorrower;
         //total inflow rate in borrow token
@@ -329,7 +408,12 @@ contract EmploymentLoan is SuperAppBase {
         }
         //if flow exists, update the flow according to various params
         else if (outFlowRate != int96(0)) {
-            newCtx = _updateOutFlowUpdate(ctx, paymentFlowRate, outFlowRateLender, inFlowRate);
+            newCtx = _updateOutFlowUpdate(
+                ctx,
+                paymentFlowRate,
+                outFlowRateLender,
+                inFlowRate
+            );
         }
         //no flow exists into the contract in borrow token
         else {
@@ -342,11 +426,23 @@ contract EmploymentLoan is SuperAppBase {
     function closeCompletedLoan() external {
         require(getTotalAmountRemaining() <= 0);
 
-        (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), lender);
+        (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            lender
+        );
         cfaV1.deleteFlow(address(this), lender, borrowToken);
 
-        (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), borrower);
-        cfaV1.updateFlow(borrower, borrowToken, currentFlowRate + currentLenderFlowRate);
+        (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            borrower
+        );
+        cfaV1.updateFlow(
+            borrower,
+            borrowToken,
+            currentFlowRate + currentLenderFlowRate
+        );
         loanOpen = false;
     }
 
@@ -355,22 +451,44 @@ contract EmploymentLoan is SuperAppBase {
     /// @dev if the loan is paid off, or if the loan is closed by the lender, pass 0. if the loan is
     /// not yet paid off, pass in the required amount to close loan
     function closeOpenLoan(uint256 amountForPayoff) external {
-        (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), lender);
-        (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(borrowToken, address(this), borrower);
+        (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            lender
+        );
+        (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(
+            borrowToken,
+            address(this),
+            borrower
+        );
 
         // lender may close the loan early to forgive the debt
         if (msg.sender == lender) {
             cfaV1.deleteFlow(address(this), lender, borrowToken);
-            cfaV1.updateFlow(borrower, borrowToken, currentFlowRate + currentLenderFlowRate);
+            cfaV1.updateFlow(
+                borrower,
+                borrowToken,
+                currentFlowRate + currentLenderFlowRate
+            );
             loanOpen = false;
         } else {
-            require(amountForPayoff >= (getTotalAmountRemaining()), "insuf funds");
-            require(getTotalAmountRemaining() > 0, "you should call closeOpenLoan() instead");
+            require(
+                amountForPayoff >= (getTotalAmountRemaining()),
+                "insuf funds"
+            );
+            require(
+                getTotalAmountRemaining() > 0,
+                "you should call closeOpenLoan() instead"
+            );
             borrowToken.transferFrom(msg.sender, lender, amountForPayoff);
 
             cfaV1.deleteFlow(address(this), lender, borrowToken);
 
-            cfaV1.updateFlow(borrower, borrowToken, currentFlowRate + currentLenderFlowRate);
+            cfaV1.updateFlow(
+                borrower,
+                borrowToken,
+                currentFlowRate + currentLenderFlowRate
+            );
             loanOpen = false;
         }
     }
