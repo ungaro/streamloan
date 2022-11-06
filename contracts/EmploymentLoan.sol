@@ -95,9 +95,9 @@ contract EmploymentLoan is SuperAppBase {
         int256 _paybackDays, // total payback days
         address _employer, // allow-listed employer address
         address _borrower, // borrower address
+        address _lendingPool // address of lending Pool to redirect SF stream
         ISuperToken _borrowToken, // super token to be used in borrowing
         ISuperfluid _host, // address of SF host
-        address _lendingPool // address of lending Pool to redirect SF stream
     ) {
         borrowAmount = _borrowAmount;
         interestRate = _interestRate;

@@ -31,6 +31,7 @@ contract LoanFactory {
         int8 _paybackMonths,
         address _employer,
         address _borrower,
+        address _lendingPool,
         ISuperToken _borrowToken,
         ISuperfluid _host
     ) external returns (uint256) {
@@ -40,6 +41,7 @@ contract LoanFactory {
             _paybackMonths,
             _employer,
             _borrower,
+            _lendingPool
             _borrowToken,
             _host
         );
