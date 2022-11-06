@@ -2,6 +2,9 @@ const ethers = require("ethers");
 const { Framework } = require("@superfluid-finance/sdk-core");
 require("dotenv").config();
 
+const stIbAlluoUSD = "0x2efc02e2cdcc1ef699f4af7e98b20f8a2a30923d"; //StIbAlluoUSD on mumbai
+const USDC = "0xd751A2717010072E7fc06179bC209ae886eB704f";
+
 async function main() {
   const url = `${process.env.MUMBAI_RPC}`;
   const customHttpProvider = new ethers.providers.JsonRpcProvider(url);
@@ -18,13 +21,15 @@ async function main() {
     provider: customHttpProvider,
   });
 
-  const LoanFactory = await hre.ethers.getContractFactory("LoanFactory");
-  const loanFactory = await LoanFactory.connect(deployer).deploy();
+  console.log("running deploy script...");
+  // We get the contract to deploy
+  const Pool = await hre.ethers.getContractFactory("LiquidityPool");
+  const pool = await Pool.connect(deployer).deploy(USDC, stIbAlluoUSD, 10);
 
-  await loanFactory.deployed();
+  await pool.deployed();
 
   //NOTE: you will need this address to run other scripts, so we recommend getting it from the console
-  console.log("LoanFactory.sol deployed to:", loanFactory.address);
+  console.log("LiquidityPool.sol deployed to:", pool.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
