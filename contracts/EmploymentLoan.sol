@@ -163,14 +163,14 @@ contract EmploymentLoan is SuperAppBase {
     /// @notice borrower can use this function to request funds from lending pool and start the loan
     /// @dev function also handles the splitting of flow to lender
     function borrow() external {
-        (, int96 borrowerFlowRate, , ) = cfaV1.cfa.getFlow(
+        (, int96 employerFlowRate, , ) = cfaV1.cfa.getFlow(
             borrowToken,
-            borrower,
+            employer,
             address(this)
         );
 
         require(
-            borrowerFlowRate >= getPaymentFlowRate(),
+            employerFlowRate >= getPaymentFlowRate(),
             "insufficient flowRate"
         );
 
@@ -209,7 +209,7 @@ contract EmploymentLoan is SuperAppBase {
     /// @param ctx the context value passed into updateOutflow in super app callbacks
     /// @param paymentFlowRate the flow rate to be sent to the lender if a loan were to activate
     /// (this could be the same value as outFlowRate)
-    /// @param inFlowRate the flow rate sent into the contract from the borrower
+    /// @param inFlowRate the flow rate sent into the contract from the employer
     /// used within the _updateOutflow function which is ultimately called in the callbacks
     function _updateOutFlowCreate(
         bytes calldata ctx,
@@ -220,8 +220,8 @@ contract EmploymentLoan is SuperAppBase {
         //get the current sender of the flow
         address sender = host.decodeCtx(ctx).msgSender;
         //this will revert and no outflow or inflow will be created if the sender of the flow is not
-        // the emploer
-        require(sender == borrower, "sender of flow must be the borrower");
+        // the employer 
+        require(sender == employer, "sender of flow must be the borrower");
         // @dev If there is no existing outflow, then create new flow to equal inflow
         // sender must also be the borrower
         //create flow to employee
