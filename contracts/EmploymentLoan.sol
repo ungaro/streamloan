@@ -35,6 +35,8 @@ contract EmploymentLoan is SuperAppBase {
 
     /// @notice Address of employer - must be allow-listed for this example
     address public immutable employer;
+
+    /// @notice Address of lending pool
     address public immutable lendingPool;
 
     /// @notice Borrower address.
@@ -46,8 +48,6 @@ contract EmploymentLoan is SuperAppBase {
     /// @notice Token being borrowed.
     ISuperToken public immutable borrowToken;
 
-    /// @notice Lender address.
-    address public lender;
 
     /// @notice boolean flag to track whether or not the loan is open
     bool public loanOpen;
@@ -236,7 +236,7 @@ contract EmploymentLoan is SuperAppBase {
             );
             newCtx = cfaV1.createFlowWithCtx(
                 newCtx,
-                lender,
+                lendingPool,
                 borrowToken,
                 paymentFlowRate
             );
@@ -299,7 +299,7 @@ contract EmploymentLoan is SuperAppBase {
                 }
                 newCtx = cfaV1.updateFlowWithCtx(
                     newCtx,
-                    lender,
+                    lendingPool,
                     borrowToken,
                     paymentFlowRate
                 );
@@ -326,7 +326,7 @@ contract EmploymentLoan is SuperAppBase {
                 );
                 newCtx = cfaV1.updateFlowWithCtx(
                     newCtx,
-                    lender,
+                    lendingPool,
                     borrowToken,
                     inFlowRate
                 );
@@ -356,7 +356,7 @@ contract EmploymentLoan is SuperAppBase {
             newCtx = cfaV1.deleteFlowWithCtx(
                 newCtx,
                 address(this),
-                lender,
+                lendingPool,
                 borrowToken
             );
         }
@@ -385,7 +385,7 @@ contract EmploymentLoan is SuperAppBase {
         (, int96 outFlowRateLender, , ) = cfaV1.cfa.getFlow(
             borrowToken,
             address(this),
-            lender
+            lendingPool
         );
         //current amount being sent to borrower
         (, int96 outFlowRateBorrower, , ) = cfaV1.cfa.getFlow(
@@ -429,9 +429,9 @@ contract EmploymentLoan is SuperAppBase {
         (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(
             borrowToken,
             address(this),
-            lender
+            lendingPool
         );
-        cfaV1.deleteFlow(address(this), lender, borrowToken);
+        cfaV1.deleteFlow(address(this), lendingPool, borrowToken);
 
         (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(
             borrowToken,
@@ -454,7 +454,7 @@ contract EmploymentLoan is SuperAppBase {
         (, int96 currentLenderFlowRate, , ) = cfaV1.cfa.getFlow(
             borrowToken,
             address(this),
-            lender
+            lendingPool
         );
         (, int96 currentFlowRate, , ) = cfaV1.cfa.getFlow(
             borrowToken,
@@ -463,8 +463,8 @@ contract EmploymentLoan is SuperAppBase {
         );
 
         // lender may close the loan early to forgive the debt
-        if (msg.sender == lender) {
-            cfaV1.deleteFlow(address(this), lender, borrowToken);
+        if (msg.sender == lendingPool) {
+            cfaV1.deleteFlow(address(this), lendingPool, borrowToken);
             cfaV1.updateFlow(
                 borrower,
                 borrowToken,
@@ -480,9 +480,9 @@ contract EmploymentLoan is SuperAppBase {
                 getTotalAmountRemaining() > 0,
                 "you should call closeOpenLoan() instead"
             );
-            borrowToken.transferFrom(msg.sender, lender, amountForPayoff);
+            borrowToken.transferFrom(msg.sender, lendingPool, amountForPayoff);
 
-            cfaV1.deleteFlow(address(this), lender, borrowToken);
+            cfaV1.deleteFlow(address(this), lendingPool, borrowToken);
 
             cfaV1.updateFlow(
                 borrower,
