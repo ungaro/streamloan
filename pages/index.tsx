@@ -72,7 +72,6 @@ function Home() {
                                                                 formats
                                                             </div>
                                                         </div>
-                                                    </a><a className="header__box" href="#">
                                                         <div className="header__preview"><img className="header__pic"
                                                                                               src="img/calendar.png"
                                                                                               alt=""/></div>

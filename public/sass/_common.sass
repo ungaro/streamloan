@@ -658,7 +658,9 @@ body
         margin: 0 -90px 0 -42px
         text-align: center
         .main__pic
-          max-width: 420px
+          max-width: 820px
+          position: absolute
+
     +nl
       position: absolute
   &__view
@@ -666,8 +668,11 @@ body
       .main__preview
         opacity: 0
         transition: all .5s
+        width: 800px
+        left: 20px
+
         &:first-child
-          transform: translate(40px,-40px)
+          transform: translate(140px,-140px)
         &:nth-child(2)
           transform: translateX(-40px) skewX(10deg)
         &:nth-child(3)
