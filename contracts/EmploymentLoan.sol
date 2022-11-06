@@ -136,7 +136,7 @@ contract EmploymentLoan is SuperAppBase {
             int96(
                 ((borrowAmount +
                     ((borrowAmount * int256(interestRate)) / int256(100))) /
-                    paybackDays) / ((365 / 12) * 86400)
+                    paybackDays) / 365 * 86400)
             )
         );
     }
