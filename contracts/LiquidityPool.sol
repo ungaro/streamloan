@@ -46,7 +46,7 @@ contract LiquidityPool {
     function addLiquidity(uint256 _tokenAmount)
     external
     {
-        require(_tokenAmount;, "No Liquidity Shares Minted");
+        require(_tokenAmount > 0, "No Liquidity Shares Minted");
         require(
             loanToken.transferFrom(msg.sender, address(this), _tokenAmount),
             "Token Transfer Failed"
@@ -69,15 +69,9 @@ contract LiquidityPool {
             "Insufficient liquidity shares"
         );
 
-        uint256 loanTokenBalance = loanToken.balanceOf(address(this));
-
-        uint256 _totalLiquidity = totalLiquidity;
-
-        _amountLoanToken = (_liquidityShares * loanTokenBalance) / _totalLiquidity;
-
         require(
-            _amountLoanToken > 0,
-            "Insufficient transfer amounts"
+            totalLiquidity >= _liquidityShares,
+            "Insufficient pool liquidity"
         );
 
         // Burn user liquidity shares
@@ -88,6 +82,10 @@ contract LiquidityPool {
 
         // Get supertokens in pool (earnings)
         uint256 superTokenBal = superToken.balanceOf(address(this));
+        uint256 superTokenSendAmount = (_liquidityShares / totalLiquidity) * superTokenBal;
+
+        // Send lender their share of the supertokens generated through loan income
+        superToken.transfer(msg.sender, superTokenSendAmount);
 
         emit BurnLpToken(msg.sender, _liquidityShares);
     }
