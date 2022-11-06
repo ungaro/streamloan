@@ -48,7 +48,6 @@ contract EmploymentLoan is SuperAppBase {
     /// @notice Token being borrowed.
     ISuperToken public immutable borrowToken;
 
-
     /// @notice boolean flag to track whether or not the loan is open
     bool public loanOpen;
 
@@ -95,9 +94,9 @@ contract EmploymentLoan is SuperAppBase {
         int256 _paybackDays, // total payback days
         address _employer, // allow-listed employer address
         address _borrower, // borrower address
-        address _lendingPool // address of lending Pool to redirect SF stream
+        address _lendingPool, // address of lending Pool to redirect SF stream
         ISuperToken _borrowToken, // super token to be used in borrowing
-        ISuperfluid _host, // address of SF host
+        ISuperfluid _host // address of SF host
     ) {
         borrowAmount = _borrowAmount;
         interestRate = _interestRate;
@@ -136,7 +135,7 @@ contract EmploymentLoan is SuperAppBase {
             int96(
                 ((borrowAmount +
                     ((borrowAmount * int256(interestRate)) / int256(100))) /
-                    paybackDays) / 365 * 86400)
+                    paybackDays) / (365 * 86400)
             )
         );
     }
@@ -201,7 +200,6 @@ contract EmploymentLoan is SuperAppBase {
         cfaV1.createFlow(lendingPool, borrowToken, getPaymentFlowRate());
 
         loanOpen = true;
-        lender = msg.sender;
         loanStartTime = block.timestamp;
     }
 
@@ -220,7 +218,7 @@ contract EmploymentLoan is SuperAppBase {
         //get the current sender of the flow
         address sender = host.decodeCtx(ctx).msgSender;
         //this will revert and no outflow or inflow will be created if the sender of the flow is not
-        // the employer 
+        // the employer
         require(sender == employer, "sender of flow must be the borrower");
         // @dev If there is no existing outflow, then create new flow to equal inflow
         // sender must also be the borrower

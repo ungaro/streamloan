@@ -3,8 +3,7 @@ const { Framework } = require("@superfluid-finance/sdk-core");
 require("dotenv").config();
 
 async function main() {
-  //NOTE: this is set as the goerli url, but can be changed to reflect your RPC URL and network of choice
-  const url = `${process.env.RPC_URL}`;
+  const url = `${process.env.MUMBAI_RPC}`;
   const customHttpProvider = new ethers.providers.JsonRpcProvider(url);
 
   const network = await customHttpProvider.getNetwork();
@@ -15,11 +14,10 @@ async function main() {
   });
 
   const deployer = sf.createSigner({
-    privateKey: process.env.EMPLOYER_PRIVATE_KEY, // deployer here doesn't matter much
+    privateKey: process.env.DEPLOYER_PRIVATE_KEY, // deployer here doesn't matter much
     provider: customHttpProvider,
   });
 
-  //NOTE - this is DAIx on goerli - you can change this token to suit your network and desired token address
   const daix = await sf.loadSuperToken("fDAIx");
 
   console.log("running deploy script...");

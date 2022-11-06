@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import { ISuperToken } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
+import {ISuperToken} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
 
 contract LiquidityPool {
     // ERC20 token state variables
@@ -27,7 +27,7 @@ contract LiquidityPool {
 
     constructor(address _loanToken, address _superToken) {
         loanToken = IERC20(_loanToken);
-        superToken = ISuperToken(_superToken)
+        superToken = ISuperToken(_superToken);
     }
 
     // Internal function to mint liquidity shares
@@ -43,9 +43,7 @@ contract LiquidityPool {
     }
 
     // Function for user to add liquidity
-    function addLiquidity(uint256 _tokenAmount)
-    external
-    {
+    function addLiquidity(uint256 _tokenAmount) external {
         require(_tokenAmount > 0, "No Liquidity Shares Minted");
         require(
             loanToken.transferFrom(msg.sender, address(this), _tokenAmount),
@@ -56,14 +54,10 @@ contract LiquidityPool {
         // Mint shares to user
         _mint(msg.sender, liquidityShares);
 
-        emit MintLpToken(msg.sender, _liquidityShares);
+        emit MintLpToken(msg.sender, liquidityShares);
     }
 
-
-    function removeLiquidity(uint256 _liquidityShares)
-    external
-    returns (uint256 _tokenAmount)
-    {
+    function removeLiquidity(uint256 _liquidityShares) external {
         require(
             userLiquidity[msg.sender] >= _liquidityShares,
             "Insufficient liquidity shares"
@@ -78,11 +72,12 @@ contract LiquidityPool {
         _burn(msg.sender, _liquidityShares);
 
         // Transfer tokens to user
-        loanToken.transfer(msg.sender, _amountLoanToken);
+        loanToken.transfer(msg.sender, _liquidityShares);
 
         // Get supertokens in pool (earnings)
         uint256 superTokenBal = superToken.balanceOf(address(this));
-        uint256 superTokenSendAmount = (_liquidityShares / totalLiquidity) * superTokenBal;
+        uint256 superTokenSendAmount = (_liquidityShares / totalLiquidity) *
+            superTokenBal;
 
         // Send lender their share of the supertokens generated through loan income
         superToken.transfer(msg.sender, superTokenSendAmount);

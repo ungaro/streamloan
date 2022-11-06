@@ -41,7 +41,7 @@ contract LoanFactory {
             _paybackMonths,
             _employer,
             _borrower,
-            _lendingPool
+            _lendingPool,
             _borrowToken,
             _host
         );
