@@ -30,7 +30,7 @@ contract EmploymentLoan is SuperAppBase {
     /// @notice Interest rate, in whole number. I.e. 8% interest rate would be passed as '8'
     int8 public immutable interestRate;
 
-    /// @notice Number of months the loan will be paid back in. I.e. 2 years = '24'
+    /// @notice Number of days the loan will be paid back in
     int256 public immutable paybackDays;
 
     /// @notice Address of employer - must be allow-listed for this example
