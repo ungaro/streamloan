@@ -145,13 +145,11 @@ function Home() {
                 <div className="main__center center">
                     <div className="main__wrap">
                         <h1 className="main__title title title_big" data-aos><span className="title__box"><span
-                            className="title__text">Create  </span></span><span className="title__box"><span
-                            className="title__text"><span className="title__line">Like</span></span></span><span
-                            className="title__box"><span className="title__text"> Never</span></span><span
-                            className="title__box"><span className="title__text">Before<span
-                            className="title__color">.</span></span></span></h1>
-                        <div className="main__info info" data-aos="animation-scale-y" data-aos-delay="400">Create,
-                            build, collaborate and ship products faster. Good bye code! 👋
+                            className="title__text">Get your  </span></span><span className="title__box"><span
+                            className="title__text"><span className="title__line">paycheck</span></span></span><span
+                            className="title__box"><span className="title__text"> now!</span></span><span
+                            className="title__box"></span></h1>
+                        <div className="main__info info" data-aos="animation-scale-y" data-aos-delay="400">No more waiting until the end of the month! 👋
                         </div>
                         <div className="main__control" data-aos="animation-scale-y" data-aos-delay="550"><a
                             className="main__btn btn btn_purple" href="login.html">Get Started</a><a
@@ -166,13 +164,9 @@ function Home() {
                         </a></div>
                     </div>
                     <div className="main__view" data-aos>
-                        <div className="main__preview"><img className="main__pic js-parallax" data-scale="1.5"
-                                                            data-orientation="down" src="img/main-pic-1.png" alt=""/>
-                        </div>
-                        <div className="main__preview"><img className="main__pic js-parallax" data-scale="1.5"
-                                                            data-orientation="up" src="img/main-pic-2.png" alt=""/></div>
-                        <div className="main__preview"><img className="main__pic" src="img/mouse.png" alt=""/></div>
-                        <div className="main__preview"><img className="main__pic" src="img/main-pic-3.png" alt=""/></div>
+
+
+                        <div className="main__preview"><img className="main__pic js-parallax" src="img/main-pic-3.png" alt=""/></div>
                     </div>
                     <div className="main__circles">
                         <div className="main__circle"></div>
@@ -188,11 +182,10 @@ function Home() {
             <div className="features js-features">
                 <div className="features__center center">
                     <div className="features__head" data-aos="animation-scale-y">
-                        <div className="features__stage stage">Features</div>
+                        <div className="features__stage stage">How it works</div>
                         <div className="features__box">
-                            <h2 className="features__title title">The world’s most powerful design tool.</h2>
-                            <div className="features__info info">Simultaneously design, code and collaborate with your
-                                team all from one place.
+                            <h2 className="features__title title">Three simple steps</h2>
+                            <div className="features__info info"> StreamLoan leverages decentralized networks to get you your paycheck now.
                             </div>
                         </div>
                     </div>
@@ -202,10 +195,9 @@ function Home() {
                                 <div className="features__slide" data-aos="animation-scale-y">
                                     <div className="features__details">
                                         <div className="features__preview"><img className="features__pic"
-                                                                                src="img/camera.png" alt=""/></div>
-                                        <div className="features__category">Import Photos & Videos</div>
-                                        <div className="features__text">Simply drag and drop photos and videos into your
-                                            workspace to automatically add them to your Collab Cloud library.
+                                                                                src="img/feat1.png" alt=""/></div>
+                                        <div className="features__category">Sign In</div>
+                                        <div className="features__text">Sign in or connect wallet to app.streamloan.xyz
                                         </div>
                                         <a className="features__link" href="#">Find out more</a>
                                     </div>
@@ -213,10 +205,9 @@ function Home() {
                                 <div className="features__slide" data-aos="animation-scale-y" data-aos-delay="200">
                                     <div className="features__details">
                                         <div className="features__preview"><img className="features__pic"
-                                                                                src="img/calendar.png" alt=""/></div>
-                                        <div className="features__category">Calendar API Built-In</div>
-                                        <div className="features__text">Kickstart your design process for a wide variety
-                                            of apps such as calendar, analytics, virtual assistant, file manager.
+                                                                                src="img/feat2.png" alt=""/></div>
+                                        <div className="features__category">Check your Employer</div>
+                                        <div className="features__text">Check your employer’s availability and rate
                                         </div>
                                         <a className="features__link" href="#">Find out more</a>
                                     </div>
@@ -224,36 +215,14 @@ function Home() {
                                 <div className="features__slide">
                                     <div className="features__details">
                                         <div className="features__preview"><img className="features__pic"
-                                                                                src="img/camera.png" alt=""/></div>
-                                        <div className="features__category">Import Photos & Videos</div>
-                                        <div className="features__text">Simply drag and drop photos and videos into your
-                                            workspace to automatically add them to your Collab Cloud library.
+                                                                                src="img/feat3.png" alt=""/></div>
+                                        <div className="features__category">Borrow</div>
+                                        <div className="features__text">Click Borrow and receive payment today, directly to your crypto wallet or your bank account
                                         </div>
                                         <a className="features__link" href="#">Find out more</a>
                                     </div>
                                 </div>
-                                <div className="features__slide">
-                                    <div className="features__details">
-                                        <div className="features__preview"><img className="features__pic"
-                                                                                src="img/calendar.png" alt=""/></div>
-                                        <div className="features__category">Calendar API Built-In</div>
-                                        <div className="features__text">Kickstart your design process for a wide variety
-                                            of apps such as calendar, analytics, virtual assistant, file manager.
-                                        </div>
-                                        <a className="features__link" href="#">Find out more</a>
-                                    </div>
-                                </div>
-                                <div className="features__slide">
-                                    <div className="features__details">
-                                        <div className="features__preview"><img className="features__pic"
-                                                                                src="img/camera.png" alt=""/></div>
-                                        <div className="features__category">Import Photos & Videos</div>
-                                        <div className="features__text">Simply drag and drop photos and videos into your
-                                            workspace to automatically add them to your Collab Cloud library.
-                                        </div>
-                                        <a className="features__link" href="#">Find out more</a>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                         <div className="features__status js-features-status"></div>
@@ -263,46 +232,7 @@ function Home() {
                 <div className="features__bg" data-aos data-aos-duration="1000"><img className="features__pic"
                                                                                      src="img/features-pic-1.svg"
                                                                                      alt=""/></div>
-            </div>
-            <div className="partners">
-                <div className="partners__center center">
-                    <div className="partners__head" data-aos="animation-scale-y">
-                        <div className="partners__stage stage">Clients</div>
-                        <div className="partners__details">
-                            <h2 className="partners__title title">More than 68,219 designers use Collab.</h2>
-                            <div className="partners__info info">Design anything from simple icons to fully featured
-                                websites and applications.
-                            </div>
-                        </div>
-                    </div>
-                    <div className="partners__list">
-                        <div className="partners__item" data-aos><img className="partners__pic" src="img/waves.svg"
-                                                                      alt=""/></div>
-                        <div className="partners__item" data-aos data-aos-delay="150"><img className="partners__pic"
-                                                                                           src="img/goldlines.svg"
-                                                                                           alt=""/></div>
-                        <div className="partners__item" data-aos data-aos-delay="300"><img className="partners__pic"
-                                                                                           src="img/oliver.svg" alt=""/>
-                        </div>
-                        <div className="partners__item" data-aos data-aos-delay="450"><img className="partners__pic"
-                                                                                           src="img/duotrip.svg" alt=""/>
-                        </div>
-                        <div className="partners__item" data-aos><img className="partners__pic" src="img/rota-show.svg"
-                                                                      alt=""/></div>
-                        <div className="partners__item" data-aos data-aos-delay="150"><img className="partners__pic"
-                                                                                           src="img/travelers.svg"
-                                                                                           alt=""/></div>
-                        <div className="partners__item" data-aos data-aos-delay="300"><img className="partners__pic"
-                                                                                           src="img/velocity-9.svg"
-                                                                                           alt=""/></div>
-                        <div className="partners__item" data-aos data-aos-delay="450"><img className="partners__pic"
-                                                                                           src="img/foxds.svg" alt=""/>
-                        </div>
-                    </div>
-                </div>
-                <div className="partners__preview" data-aos data-aos-duration="1000"><img className="partners__pic"
-                                                                                          src="img/partners-pic.svg"
-                                                                                          alt=""/></div>
+
                 <div className="partners__circle js-rellax" data-rellax-speed=".6"></div>
             </div>
                 <script src="/js/app.js"></script>
