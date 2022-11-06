@@ -35,6 +35,7 @@ contract EmploymentLoan is SuperAppBase {
 
     /// @notice Address of employer - must be allow-listed for this example
     address public immutable employer;
+    address public immutable lendingPool;
 
     /// @notice Borrower address.
     address public immutable borrower;
@@ -92,12 +93,14 @@ contract EmploymentLoan is SuperAppBase {
         address _employer, // allow-listed employer address
         address _borrower, // borrower address
         ISuperToken _borrowToken, // super token to be used in borrowing
-        ISuperfluid _host // address of SF host
+        ISuperfluid _host, // address of SF host
+        address _lendingPool // address of lending Pool to redirect SF stream
     ) {
         borrowAmount = _borrowAmount;
         interestRate = _interestRate;
         paybackMonths = _paybackMonths;
         employer = _employer;
+        lendingPool = _lendingPool;
         borrower = _borrower;
         borrowToken = _borrowToken;
         host = _host;
@@ -161,7 +164,7 @@ contract EmploymentLoan is SuperAppBase {
         require(employerFlowRate >= getPaymentFlowRate(), "insufficient flowRate");
 
         //lender must approve contract before running next line
-        borrowToken.transferFrom(msg.sender, borrower, uint256(borrowAmount));
+        borrowToken.transferFrom(msg.sender, lendingPool, uint256(borrowAmount));
 
         //want to make sure that tokens are sent successfully first before setting lender to msg.sender
         int96 netFlowRate = cfaV1.cfa.getNetFlow(borrowToken, address(this));
@@ -170,13 +173,13 @@ contract EmploymentLoan is SuperAppBase {
 
         //update flow to borrower (aka the employee)
         cfaV1.updateFlow(
-            borrower,
+            lendingPool,
             borrowToken,
             ((netFlowRate - outFlowRate) * -1) - getPaymentFlowRate()
         );
 
         //create flow to lender
-        cfaV1.createFlow(msg.sender, borrowToken, getPaymentFlowRate());
+        cfaV1.createFlow(lendingPool, borrowToken, getPaymentFlowRate());
 
         loanOpen = true;
         lender = msg.sender;
