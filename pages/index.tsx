@@ -305,7 +305,8 @@ function Home() {
                                                                                           alt=""/></div>
                 <div className="partners__circle js-rellax" data-rellax-speed=".6"></div>
             </div>
-
+                <script src="/js/app.js"></script>
+                <script src="/js/common.js"></script>
             </main>
 
 
