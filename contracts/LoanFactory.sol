@@ -18,17 +18,16 @@ contract LoanFactory {
 
     /// @notice Creates new loan contract.
     /// @param _borrowAmount Amount to borrow.
-    /// @param _interestRate Interest rate.
-    /// @param _paybackMonths Number of months for repayment.
+    /// @param _paybackDays Number of days for repayment.
     /// @param _employer Employer address.
     /// @param _borrower Borrower address.
+    /// @param _lendingPool Address of lending pool
     /// @param _borrowToken Token to borrow.
     /// @param _host Superfluid host.
     /// @return Loan ID.
     function createNewLoan(
         int256 _borrowAmount,
-        int8 _interestRate,
-        int8 _paybackMonths,
+        int256 _paybackDays,
         address _employer,
         address _borrower,
         address _lendingPool,
@@ -37,8 +36,7 @@ contract LoanFactory {
     ) external returns (uint256) {
         EmploymentLoan newLoan = new EmploymentLoan(
             _borrowAmount,
-            _interestRate,
-            _paybackMonths,
+            _paybackDays,
             _employer,
             _borrower,
             _lendingPool,

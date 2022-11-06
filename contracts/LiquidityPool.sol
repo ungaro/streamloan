@@ -10,6 +10,8 @@ contract LiquidityPool {
     IERC20 public immutable loanToken;
     ISuperToken public immutable superToken;
 
+    int8 public immutable interestRate;
+
     // State variables for liquidity shares
     uint256 public totalLiquidity;
     mapping(address => uint256) public userLiquidity;
@@ -25,9 +27,14 @@ contract LiquidityPool {
         uint256 _sharesBurned
     );
 
-    constructor(address _loanToken, address _superToken) {
+    constructor(
+        address _loanToken,
+        address _superToken,
+        int8 _interestRate
+    ) {
         loanToken = IERC20(_loanToken);
         superToken = ISuperToken(_superToken);
+        interestRate = _interestRate;
     }
 
     // Internal function to mint liquidity shares
@@ -83,5 +90,9 @@ contract LiquidityPool {
         superToken.transfer(msg.sender, superTokenSendAmount);
 
         emit BurnLpToken(msg.sender, _liquidityShares);
+    }
+
+    function getInterestRate() public view returns (int8) {
+        return interestRate;
     }
 }
